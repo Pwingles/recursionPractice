@@ -12,7 +12,7 @@ This project implements and tests classic problems both **iteratively** and **re
 - Equality of two vectors
 - Palindrome detection (letters only, and ignoring non-letters)
 - Counting adjacent inversions
-- Intersection of two vectors (**pending**)
+- Intersection of two vectors 
 
 All functions operate on `std::vector<int>` or `std::string`.  
 Recursive solutions follow simple base cases (e.g., `n == 0`, or `leftIdx >= rightIdx`).
