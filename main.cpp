@@ -1,194 +1,72 @@
 #include <iostream>
 #include <vector>
 // TEAM members: Kevin Rodriguez, Caleb Clements, Will Mayer
+
+/**
+* Determine if a value is in a vector.
+* Return true if "key" is one of the values in numbers[0..n-1].
+* Return false otherwise.
+*/
 bool iterativeMember(const std::vector<int> &numbers, size_t n, int key) {
-      // Write an iterative solution to the Member Problem.
-      // Determine if "key" is one of the values in numbers[0..n-1].
-    for (int i = 0; i < n; ++i) {
-        if (key == numbers[i]) {
+    for (int i = 0; i < n; ++i) { // loop through the vector up to n elements
+        if (key == numbers[i]) {  // if we find the key, return true
             return true;
         }
     }
-    return false;  // This is a placeholder to make compilers happy!
+    return false; // not found
 }
 
-bool recursiveMember(const std::vector<int> &numbers, size_t n, int key) {
-    // Write a recursive solution to the member problem.
-    // Determine if "key" is one of the values in numbers[0..n-1].
 
-    if (n == 0) {
+/**
+ * Recursive version of member check
+ */
+bool recursiveMember(const std::vector<int> &numbers, size_t n, int key) {
+    if (n == 0) { // base case: empty range
         return false;
     }
-    if (numbers[n-1] == key) {
+    if (numbers[n-1] == key) { // check last element
         return true;
     }
-
-    return recursiveMember(numbers, n-1, key);
-
+    return recursiveMember(numbers, n-1, key); // recurse on smaller range
 }
 
-bool iterativeAreIdentical(const std::vector<int> &numbers1, const std::vector<int> &numbers2, size_t n) {
-    // Write an iterative solution to the are identical problem.
-    // Given two vectors each of which has n elements, do they contain the same elements in
-    // the same positions?
 
-    // Example 1:
-    // numbers1 contains 34, 21, 80, 56, 100
-    // numbers2 contains 34, 21, 80, 56, 100
-    // iterativeAreIdentical(numbers1, number2, 5) should return true.
-    for (int i = 0; i < n; ++i) {
+/**
+ * Iterative comparison of two vectors
+ */
+bool iterativeAreIdentical(const std::vector<int> &numbers1, const std::vector<int> &numbers2, size_t n) {
+    for (int i = 0; i < n; ++i) { // compare each index
         if (numbers1[i] != numbers2[i]) {
-            return false;
+            return false; // mismatch found
         }
     }
-    // Example 2:
-    // numbers1 contains 32, 21, 80, 56, 100
-    // numbers2 contains 34, 100, 30, 56, 21
-    // iterativeAreIdentical(numbers1, number2, 5) should return false.
-
-  return true;  // A place holder. Change it as needed.
+    return true; // all matched
 }
 
+
+/**
+ * Recursive comparison of two vectors
+ */
 bool recursiveAreIdentical(const std::vector<int> &numbers1, const std::vector<int> &numbers2, size_t n) {
-    // Write a recursive solution to the are-identical problem.
-    // Given two vectors each of which has n elements, do they contain the same elements in
-    // the same positions?
-
-    // Example 1:
-    // numbers1 contains 34, 21, 80, 56, 100
-    // numbers2 contains 34, 21, 80, 56, 100
-    // iterativeAreIdentical(numbers1, number2, 5) should return true.
-
-    // Example 2:
-    // numbers1 contains 32, 21, 80, 56, 100
-    // numbers2 contains 34, 100, 30, 56, 21
-    // iterativeAreIdentical(numbers1, number2, 5) should return false.
-
-    if (n == 0) {
+    if (n == 0) { // base case: no elements left
         return true;
     }
-
-    if (numbers1.at(n-1) != numbers2.at(n-1)) {
+    if (numbers1.at(n-1) != numbers2.at(n-1)) { // check last element
         return false;
     }
-
-    return recursiveAreIdentical(numbers1, numbers2, n-1);
-
-
+    return recursiveAreIdentical(numbers1, numbers2, n-1); // recurse down
 }
 
-bool iterativePalindrome(const std::string &s) {
-     // Write an function that determines whether a string is a palindrome.
-     // A string is a palindrome if it reads the same forward and backward.
-     // For example, "dad" and "kayak" are palindromes.
-     //
-     // Hint: You can use the array subscript operator to access characters.
-     // For example, if s is a string, then s[0], s[1], and s[s.length()-1]
-     // refer to the first, second, and last characters, respectively.
-    if (s.size() <= 1) {
-        return true;
-    }
 
+/**
+ * Iterative palindrome check
+ */
+bool iterativePalindrome(const std::string &s) {
+    if (s.size() <= 1) return true; // base case: empty/1-char string is palindrome
+
+    // check characters from front and back moving inward
     for (int i = 0, j = s.size()-1; i < s.size()/2; ++i, --j) {
         if(s[i] != s[j]) {
-            return false;
-        }
-    }
-
-     return true; // a place holder
-}
-
-
-bool recursivePalindrome(const std::string &s, size_t leftIdx, size_t rightIdx) {
-   // Given a string, write a recursive function to determine whether the characters
-   // in the range s[leftIdx] ... s[rightIdx] form a palindrome.
-    if (leftIdx >= rightIdx) {
-        return true;
-    }
-
-    if (s.at(leftIdx) != s.at(rightIdx)) {
-        return false;
-    }
-
-    return recursivePalindrome(s, leftIdx + 1, rightIdx - 1);
-}
-
-int countInversionsIteratively(const std::vector<int> &v, size_t n) {
-    // Write a function that counts the number of inversions in a vector.
-    // Two consecutive values form an inversion at index i if v.at(i) > v.at(i+1).
-    // Assume that i+1 < n.
-    //
-    // A sorted vector of n elements has no inversions,
-    // because v.at(i) <= v.at(i+1) for 0 <= i < n - 1.
-    //
-    // For example, if v contains {5, 8, 10, 6, 7},
-    // the function should return 1, since 10 > 6 is the only inversion.
-
-    int counter = 0;
-    for (int i = 0; i < n-1; ++i) {
-        if (v.at(i) > v.at(i+1)) {
-            ++counter;
-        }
-    }
-
-    return counter;
-}
-
-int countInversionsRecursively(const std::vector<int> &v, size_t n) {
-     // Count and return the number of inversion in the first n
-     // elements of v, recursively.
-
-    if (n == 2) {
-        if(v.at(0) > v.at(1)) {
-            return 1;
-        }
-        return 0;
-    }
-
-    if (v.at(n-2) > v.at(n-1)) {
-        return 1 + countInversionsRecursively(v, n-1);
-    }
-
-    return countInversionsRecursively(v, n-1);
-
-
-     return 0;
-}
-
-// Check to make sure that we are comparing real characters
-void character_check (const std::string&s, int &i, int &j) {
-    while (!isalpha(s[i])) {
-        ++i;
-    }
-    while (!isalpha(s[j])) {
-        --j;
-    }
-}
-
-bool iterativePalindrome2(const std::string &s) {
-      // Write a function that determines whether a string is a palindrome.
-      // In this version, the string may contain non-letter characters.
-      // Ignore all non-letter characters and only compare letters
-      // to decide if the string is a palindrome.
-      //
-      // For example, the string "a man, a plan, a canal, panama"
-      // is a palindrome when non-letter characters are ignored.
-      //
-      // Important: Do NOT preprocess the string by collecting only letters
-      // into a new string. You should implement your solution in a single loop
-      // that skips non-letter characters as needed.
-
-      // Note: function isalpha(c) returns true if c is an alphabetic character.
-
-
-    if (s.size() <= 1) {
-        return true;
-    }
-
-
-    for (int i = 0, j = s.size()-1; i < s.size()/2; ++i, --j) {
-        character_check(s,i,j);
-        if (s.at(i) != s.at(j)) {
             return false;
         }
     }
@@ -196,86 +74,108 @@ bool iterativePalindrome2(const std::string &s) {
 }
 
 
+/**
+ * Recursive palindrome check
+ */
+bool recursivePalindrome(const std::string &s, size_t leftIdx, size_t rightIdx) {
+    if (leftIdx >= rightIdx) return true; // base case: crossed pointers
+    if (s.at(leftIdx) != s.at(rightIdx)) return false; // mismatch
+    return recursivePalindrome(s, leftIdx + 1, rightIdx - 1); // shrink inward
+}
 
+
+/**
+ * Iterative inversion counter
+ */
+int countInversionsIteratively(const std::vector<int> &v, size_t n) {
+    int counter = 0;
+    for (int i = 0; i < n-1; ++i) { // check consecutive pairs
+        if (v.at(i) > v.at(i+1)) { // inversion found
+            ++counter;
+        }
+    }
+    return counter;
+}
+
+
+/**
+ * Recursive inversion counter
+ */
+int countInversionsRecursively(const std::vector<int> &v, size_t n) {
+    if (n == 2) { // base case: only 2 elements
+        return (v.at(0) > v.at(1)) ? 1 : 0;
+    }
+    if (v.at(n-2) > v.at(n-1)) {
+        return 1 + countInversionsRecursively(v, n-1); // count + recurse
+    }
+    return countInversionsRecursively(v, n-1); // just recurse
+}
+
+
+/**
+ * Skip non-letters in palindrome functions
+ */
+void character_check (const std::string&s, int &i, int &j) {
+    while (!isalpha(s[i])) { ++i; } // move forward until letter
+    while (!isalpha(s[j])) { --j; } // move backward until letter
+}
+
+
+/**
+ * Iterative palindrome check (ignores non-letters)
+ */
+bool iterativePalindrome2(const std::string &s) {
+    if (s.size() <= 1) return true;
+
+    for (int i = 0, j = s.size()-1; i < s.size()/2; ++i, --j) {
+        character_check(s,i,j); // skip non-letter chars
+        if (s.at(i) != s.at(j)) return false;
+    }
+    return true;
+}
+
+
+/**
+ * Recursive palindrome check (ignores non-letters)
+ */
 bool recursivePalindrome2(const std::string &s, int leftIdx, int rightIdx) {
-    // Given a string, determine if the characters in the range
-    // s[leftIdx] ... s[rightIdx] form a palindrome or not.
-    // Write this one recursively.
-
-    // You should NOT preprocess the string.
-
-    // You should NOT preprocess the string. That is,
-    // you can not write a loop to collect the letters
-    // into a string and then process this new string.
-
-    if (leftIdx >= rightIdx) {
-        return true;
-    }
-
-    character_check(s,leftIdx,rightIdx);
-    if (s.at(leftIdx) != s.at(rightIdx)) {
-        return false;
-    }
-
-
-    return recursivePalindrome2(s, leftIdx+1, rightIdx-1);
+    if (leftIdx >= rightIdx) return true; // base case
+    character_check(s,leftIdx,rightIdx); // adjust to next letters
+    if (s.at(leftIdx) != s.at(rightIdx)) return false;
+    return recursivePalindrome2(s, leftIdx+1, rightIdx-1); // shrink inward
 }
 
 
-void iterativeIntersection(const std::vector<int> &values1,
-                           const std::vector<int> &values2,
-			   std::vector<int> &result,
-			   std::size_t values1NumElements,
-			   std::size_t values2NumElements) {
-    // "values1" and "values2", two independent vectors, have "values1NumElements" and
-    // "values2NumElements" values. This function finds the elements that are on both lists and
-    // adds them to "result".
-
-
-    // Example:
-    // values1 contains: 1, 2, 13, 4, 15, 6, 7
-    // values1NumElements is 7
-
-    // values2 contains: 5, 2, 10, 4, 21, 6
-    // values2NumElements is 6
-
-    // std::vector<int> result = {}  -- an empty vector
-    // After having called iterativeIntersection(values1, values2, result, 7, 6)
-    // result should contain: 2, 4, 6. These are elements that are on both lists.
-
-    // You will have to write a helper function to solve this problem. This function
-    // performs a lookup and based on the outcome, the calling function decide whether
-    // to add an element to the "result" or not.
-
-
+/**
+ * Iterative intersection of two vectors
+ */
+void iterativeIntersection(const std::vector<int> &values1, const std::vector<int> &values2, std::vector<int> &result, std::size_t values1NumElements, std::size_t values2NumElements) {
+    for (int i = 0; i < values1NumElements; ++i) { // loop over first vector
+        for (int j = 0; j < values2NumElements; ++j) { // check second vector
+            if (values1.at(i) == values2.at(j)) { // match found
+                result.push_back(values1.at(i));
+                break; // avoid duplicates from multiple matches
+            }
+        }
+    }
 }
 
-void recursiveIntersection(const std::vector<int> &values1,
-                           const std::vector<int> &values2,
-                           std::vector<int> &result, 
-                           std::size_t values1NumElements,
-			   std::size_t values2NumElements) {
-    // "values1" and "values2", two independent vectors, have "values1NumElements" and
-    // "values2NumElements" values. This function finds the elements that are on both lists and
-    // adds them to "result".
 
-
-    // Example:
-    // values1 contains: 1, 2, 13, 4, 15, 6, 7
-    // values1NumElements is 7
-
-    // values2 contains: 5, 2, 10, 4, 21, 6
-    // values2NumElements is 6
-
-    // std::vector<int> result = {}  -- an empty vector
-    // After having called iterativeIntersection(values1, values2, result, 7, 6)
-    // result should contain: 2, 4, 6. These are elements that are on both lists.
-
-
-    // You will have to write a recursive helper function to solve this problem. This function
-    // performs a lookup and based on the outcome, the calling function decide whether
-    // to add an element to the "result" or not.
-
+/**
+ * Recursive intersection of two vectors
+ */
+void recursiveIntersection(const std::vector<int> &values1, const std::vector<int> &values2, std::vector<int> &result, std::size_t values1NumElements, std::size_t values2NumElements) {
+    if (values1NumElements == 0 || values2NumElements == 0) {
+        return; // base case: one list is empty
+    }
+    for (int j = 0; j < values2NumElements; ++j) { // check last element of v1
+        if (values1.at(values1NumElements - 1) == values2.at(j)) {
+            result.push_back(values1.at(values1NumElements - 1));
+            break;
+        }
+    }
+    // recurse with one fewer element from values1
+    return recursiveIntersection(values1, values2, result, values1NumElements - 1, values2NumElements);
 }
 
 void testMember( bool (*member)(const std::vector<int> &, size_t, int)) {
@@ -472,10 +372,9 @@ int main() {
     testCountInversions(countInversionsIteratively, 1);
     testCountInversions(countInversionsRecursively, 4);
 
-    /**
     testIntersection(iterativeIntersection, 1);
     testIntersection(recursiveIntersection, 5);
 
-*/
+
     return 0;
 }
